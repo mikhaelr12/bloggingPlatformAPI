@@ -1,7 +1,6 @@
 package md.practice.bloggingapi.service;
 
 import md.practice.bloggingapi.dto.PostDTO;
-import md.practice.bloggingapi.entity.Post;
 
 import java.util.List;
 
@@ -12,4 +11,10 @@ public interface PostsService {
     void deletePost(Long id);
 
     List<PostDTO> getAllPosts();
+
+    void updatePost(Long id, PostDTO postInput);
+
+    PostDTO getPost(Long id);
+
+    List<PostDTO> getAllPostsByCategory(String category);
 }
