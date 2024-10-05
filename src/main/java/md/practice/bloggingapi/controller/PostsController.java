@@ -8,6 +8,8 @@ import md.practice.bloggingapi.service.PostsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/posts")
@@ -27,4 +29,8 @@ public class PostsController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping()
+    public ResponseEntity<List<PostDTO>> getAllPosts() {
+        return ResponseEntity.ok(postsService.getAllPosts());
+    }
 }

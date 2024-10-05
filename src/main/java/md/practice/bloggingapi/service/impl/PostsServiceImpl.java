@@ -9,6 +9,8 @@ import md.practice.bloggingapi.service.PostsService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -18,12 +20,12 @@ public class PostsServiceImpl implements PostsService {
 
     @Override
     public void addPost(PostDTO postInput) {
-         postsRepository.save(
+        postsRepository.save(
                 Post.builder()
                         .title(postInput.getTitle())
                         .content(postInput.getContent())
                         .category(postInput.getCategory())
-                        .tagId(postInput.getTag_id())
+                        .tags(postInput.getTags())
                         .createdAt(LocalDateTime.now())
                         .updatedAt(LocalDateTime.now())
                         .build()
@@ -37,5 +39,20 @@ public class PostsServiceImpl implements PostsService {
             throw new PostsException("Post not found");
         }
         postsRepository.delete(post);
+    }
+
+    @Override
+    public List<PostDTO> getAllPosts() {
+        List<Post> posts = postsRepository.findAll();
+        return posts.stream().map(post -> PostDTO.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .category(post.getCategory())
+                .createdAt(post.getCreatedAt())
+                .updatedAt(post.getUpdatedAt())
+                .tags(post.getTags())
+                .build()
+        ).collect(Collectors.toList());
     }
 }

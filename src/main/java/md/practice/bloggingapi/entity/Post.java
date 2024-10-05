@@ -1,17 +1,17 @@
 package md.practice.bloggingapi.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @Table(name = "posts")
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter @Setter
 public class Post {
 
     @Id
@@ -28,13 +28,15 @@ public class Post {
     @Column(name = "category", nullable = false)
     private String category;
 
+    @ElementCollection
+    @CollectionTable(name = "post_tags", joinColumns = @JoinColumn(name = "post_id"))
+    @Column(name = "tag")
+    private List<String> tags;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "tag_id")
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_TAG_POST"))
-    private Long tagId;
 }
